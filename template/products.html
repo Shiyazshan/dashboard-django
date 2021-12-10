@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Products Page - Dashboard Template</title>
-    <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
     <link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/tooplate.css' %}">
@@ -87,7 +87,7 @@
 
                             </div>
                             <div class="col-md-4 col-sm-12 text-right">
-                                <a href="{%url 'product:add_product'%}" class="btn btn-small btn-primary">Add New Product</a>
+                                <a href="{% url 'product:add_product'%}" class="btn btn-small btn-primary">Add New Product</a>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -112,7 +112,7 @@
                                         <td class="text-center">{{product.in_stock}}</td>
                                         <td class="text-center">{{product.units_sold}}</td>
                                         <td>{{product.expire_date}}</td>
-                                        <td><i class="fas fa-trash-alt tm-trash-icon"></i></td>
+                                        <td><a href="{% url 'product:del_product' pk=product.pk %}"><i class="fas fa-trash-alt tm-trash-icon"></i></a></td>
                                     </tr>
                                     {% endfor %}
                                     
@@ -150,7 +150,7 @@
                             <tbody>
                                 {% for category_name in categories %}
                                 <tr>
-                                    <td><a class="$gray-800" href="{% url 'product:category' %}?category={{category_name.name}}" target="blank" class="active">{{category_name.id}}.{{category_name.name}}</a></td>
+                                    <td><a class="$gray-800 tag"  href="{% url 'product:category' %}?category={{category_name.name}}" target="blank" class="active">{{category_name.id}}.{{category_name.name}}</a></td>
                                     <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
                                 </tr>
                                 {% endfor %}
@@ -179,7 +179,7 @@
                 window.location.href = "edit-product.html";
             });
         })
-        $('table tr td a').on('click', function(e){
+        $('table tr td a.tag').on('click', function(e){
 			e.preventDefault();
 			var $this = $(this);
 			var url = $this.attr("href")

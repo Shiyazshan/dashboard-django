@@ -92,7 +92,9 @@
                             <form action="{% url 'product:add_product' %}"
                                   class="tm-edit-product-form"
                                   method="POST"
+                                  enctype="multipart/form-data"
                              >
+                             
                                 {% csrf_token %}
                                 <div class="input-group mb-3">
                                     <label for="name" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Product

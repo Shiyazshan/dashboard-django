@@ -1,5 +1,5 @@
 from django import forms
-from django.shortcuts import render
+from django.shortcuts import redirect,render
 from django.http import JsonResponse
 from product.forms import ProductForm
 from product.models import Product
@@ -61,11 +61,20 @@ def category(request):
 
     return JsonResponse({'response_data': response_data})
 
+
 def add_product(request):
     form = ProductForm(request.POST, request.FILES,)
+
     if form.is_valid():
         form.save()
-    else:
-        print("errror=======================", form.errors)
 
     return render(request, 'add-product.html',{'form':form})
+
+
+
+def del_product(request,pk):
+    products = Product.objects.filter(pk=pk)
+    print("1111111111111111111111111111111111111111111111",products)
+    products.delete()
+
+    return redirect("product:product")
