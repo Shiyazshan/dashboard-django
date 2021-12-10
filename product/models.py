@@ -7,6 +7,8 @@ class Product(models.Model):
     in_stock = models.CharField(max_length=155)
     expire_date = models.CharField(max_length=155)
     category = models.ForeignKey("product.Category",on_delete=models.CASCADE)
+    description = models.TextField(blank=True,null=True)
+    image = models.ImageField(upload_to="product/media", blank=True,null=True)
 
     def __str__(self):
         return self.product_name
@@ -16,10 +18,12 @@ class Product(models.Model):
 
 
 class Category(models.Model):
-    category_name = models.CharField(max_length=155)
+    name = models.CharField(max_length=155)
 
     def __str__(self):
-        return self.category_name
+        return self.name
 
     class Meta:
         ordering = ["id"]
+
+

@@ -21,5 +21,4 @@ def user_login(request):
 def user_logout(request):
     if "username" in request.session:
         request.session.flush()
-        print("##############***********************************************#########################","logout00")
     return redirect('/user')
