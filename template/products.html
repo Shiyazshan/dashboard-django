@@ -31,7 +31,7 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mx-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="index.html">Dashboard
+                                    <a class="nav-link" href="{% url 'web:index' %}">Dashboard
                                         <span class="sr-only">(current)</span>
                                     </a>
                                 </li>
@@ -47,7 +47,7 @@
                                     </div>
                                 </li>
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="products.html">Products</a>
+                                    <a class="nav-link" href="{% url 'product:product' %}">Products</a>
                                 </li>
 
                                 <li class="nav-item">
@@ -67,7 +67,7 @@
                             </ul>
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link d-flex" href="login.html">
+                                    <a class="nav-link d-flex" href="{% url 'user:user_logout' %}">
                                         <i class="far fa-user mr-2 tm-logout-icon"></i>
                                         <span>Logout</span>
                                     </a>
@@ -108,7 +108,7 @@
                                         <th scope="row">
                                             <input type="checkbox" aria-label="Checkbox">
                                         </th>
-                                        <td class="tm-product-name">{{product.id}}. {{product.product_name}}</td>
+                                        <td class="tm-product-name"><a href="{% url 'product:edit_product' pk=product.pk%}"> {{product.id}}. {{product.product_name}}</a></td>
                                         <td class="text-center">{{product.in_stock}}</td>
                                         <td class="text-center">{{product.units_sold}}</td>
                                         <td>{{product.expire_date}}</td>
@@ -150,8 +150,8 @@
                             <tbody>
                                 {% for category_name in categories %}
                                 <tr>
-                                    <td><a class="$gray-800 tag"  href="{% url 'product:category' %}?category={{category_name.name}}" target="blank" class="active">{{category_name.id}}.{{category_name.name}}</a></td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
+                                    <td><a class="$gray-800 category"  href="{% url 'product:category' %}?category={{category_name.name}}" target="blank" class="active">{{category_name.id}}. {{category_name.name}}</a></td>
+                                    <td class="tm-trash-icon-cell"> <a href="{% url 'product:del_category' pk=category_name.pk %}"> <i class="fas fa-trash-alt tm-trash-icon"></i></a></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -179,7 +179,7 @@
                 window.location.href = "edit-product.html";
             });
         })
-        $('table tr td a.tag').on('click', function(e){
+        $('table tr td a.category').on('click', function(e){
 			e.preventDefault();
 			var $this = $(this);
 			var url = $this.attr("href")

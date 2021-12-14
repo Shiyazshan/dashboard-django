@@ -2,10 +2,8 @@ from django import forms
 from django.shortcuts import redirect,render
 from django.http import JsonResponse
 from product.forms import ProductForm
-from product.models import Product
-
-
 from product.models import Product,Category
+
 
 
 def product(request):
@@ -74,7 +72,34 @@ def add_product(request):
 
 def del_product(request,pk):
     products = Product.objects.filter(pk=pk)
-    print("1111111111111111111111111111111111111111111111",products)
     products.delete()
 
     return redirect("product:product")
+
+def del_category(request,pk):
+    categories = Category.objects.filter(pk=pk)
+    categories.delete()
+
+    return redirect("product:product")
+
+def edit_product(request, pk):  
+    product = Product.objects.get(pk=pk)  
+    form = ProductForm(instance = product)  
+
+    context = {
+        "product" : product,
+        "form" : form
+    }
+
+    return render(request,'edit-product.html',context=context) 
+
+
+def update(request, pk):  
+    product = Product.objects.get(pk=pk) 
+    form = ProductForm(request.POST, request.FILES, instance = product)  
+
+    if form.is_valid():  
+        form.save()  
+        return redirect("product:product")  
+
+    return render(request, 'edit-product.html', {'product':product})  
