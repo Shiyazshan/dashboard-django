@@ -104,9 +104,10 @@
                                 </thead>
                                 <tbody>
                                     {% for product in products %}
+                                    {% csrf_token %}
                                     <tr>
                                         <th scope="row">
-                                            <input type="checkbox" aria-label="Checkbox">
+                                            <input type="checkbox" aria-label="Checkbox" name="product_id[]" value="{{product.id}}" id="delete">
                                         </th>
                                         <td class="tm-product-name"><a href="{% url 'product:edit_product' pk=product.pk%}"> {{product.id}}. {{product.product_name}}</a></td>
                                         <td class="text-center">{{product.in_stock}}</td>
@@ -216,6 +217,40 @@
 				cache:false,
 			})
 		});
+        $(document).ready(function(){
+                let csrf= $('[name="csrfmiddlewaretoken"]').val()
+                        console.log(csrf);
+                $("div.tm-table-actions-row div.tm-table-actions-col-left button.btn").click(function(){
+                    console.log("=======================done");
+                    if(confirm("Are you sure you want to delete items"))
+                    var id= [];
+                    $(':checkbox:checked').each(function(i){
+                        id[i] =$(this).val()
+                        // var csrf=$('input[name=csrfmiddlewaretoken]').val()
+                       
+                    });
+                    if(id.length===0){
+                        alert("Please select Items to delete")
+                    }else{
+                        console.log(id);
+                        $.ajax({
+                            url:"delete/",
+                            method:"POST",
+                            data:{
+                                id,
+                                csrfmiddlewaretoken:csrf,
+                            },
+                            success:function(response){
+                                for(i=0; i<id.length; i++){
+                                    $('tr#'+id[i]+'').css('background-color', '#ccc')
+                                    $('tr#'+id[i]+'').fadeOut('slow');
+                                }
+                            }
+                        })
+                    }
+
+                })
+            })
     </script>
 </body>
 
